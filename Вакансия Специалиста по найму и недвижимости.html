@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вакансии для подработки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fce4ec, #f3c4d6);
+            overflow: hidden;
+            position: relative;
+            transition: background 1s ease;
+            animation: bgShift 10s infinite alternate;
+        }
+
+        @keyframes bgShift {
+            0% { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+            50% { background: linear-gradient(135deg, #f3c4d6, #e1bee7); }
+            100% { background: linear-gradient(135deg, #f8bbd0, #d1c4e9); }
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+            box-shadow: 0 20px 60px rgba(233, 30, 99, 0.25);
+            max-width: 550px;
+            width: 90%;
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #880e4f;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(233,30,99,0.2);
+        }
+
+        p {
+            font-size: 1.4rem;
+            color: #4a148c;
+            margin-bottom: 30px;
+            min-height: 3.5em;
+            transition: opacity 0.6s;
+            font-weight: 300;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #e91e63, #ab47bc);
+            border: none;
+            color: white;
+            padding: 18px 55px;
+            font-size: 1.5rem;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(233, 30, 99, 0.5);
+            transition: transform 0.25s, box-shadow 0.25s;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: scale(1.07) rotate(-1deg);
+            box-shadow: 0 12px 45px rgba(233, 30, 99, 0.7);
+        }
+
+        .btn:active {
+            transform: scale(0.93);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Финальное сообщение */
+        .final-message {
+            font-size: 2.4rem;
+            color: #880e4f;
+            font-weight: 600;
+            line-height: 1.5;
+            animation: fadeInUp 1.2s ease;
+            text-shadow: 0 0 30px rgba(233,30,99,0.15);
+        }
+
+        .final-message small {
+            font-size: 1.2rem;
+            font-weight: 300;
+            display: block;
+            margin-top: 18px;
+            color: #4a148c;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== ЛЕПЕСТКИ ===== */
+        .petal {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: fall linear infinite, shimmer 4s ease-in-out infinite alternate;
+            z-index: 1;
+            filter: drop-shadow(0 0 6px rgba(233,30,99,0.3));
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) scale(0.9);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg) scale(1.2);
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background: #f06292;
+                box-shadow: 0 0 15px #f06292;
+            }
+            33% {
+                background: #ce93d8;
+                box-shadow: 0 0 25px #ce93d8;
+            }
+            66% {
+                background: #ffb74d;
+                box-shadow: 0 0 20px #ffb74d;
+            }
+            100% {
+                background: #f48fb1;
+                box-shadow: 0 0 30px #f48fb1;
+            }
+        }
+
+        /* Разные размеры у лепестков */
+        .petal:nth-child(odd) { width: 18px; height: 18px; }
+        .petal:nth-child(3n) { width: 26px; height: 26px; }
+        .petal:nth-child(5n+2) { width: 20px; height: 20px; }
+        .petal:nth-child(7n+4) { width: 30px; height: 30px; border-radius: 30% 0 30% 30%; }
+    </style>
+</head>
+<body>
+
+    <!-- Лепестки будут генерироваться скриптом -->
+
+    <div class="container" id="mainContainer">
+        <!-- Шаг 1 -->
+        <div id="step1">
+            <h1>🌸 Привет, любимая!</h1>
+            <p>Я приготовил для тебя маленькое чудо.<br />Нажми на кнопку, и начнётся волшебство.</p>
+            <button class="btn" onclick="nextStep(2)">Нажми меня</button>
+        </div>
+
+        <!-- Шаг 2 -->
+        <div id="step2" class="hidden">
+            <h1>✨ Ещё разок!</h1>
+            <p>Ты уже близко к сюрпризу.<br />Смелее, нажми ещё!</p>
+            <button class="btn" onclick="nextStep(3)">Давай!</button>
+        </div>
+
+        <!-- Шаг 3 -->
+        <div id="step3" class="hidden">
+            <h1>🌷 Почти готово…</h1>
+            <p>Остался один шаг до моего послания.<br />Прыгай дальше!</p>
+            <button class="btn" onclick="nextStep(4)">Прыгай!</button>
+        </div>
+
+        <!-- Финал (Шаг 4) -->
+        <div id="step4" class="hidden">
+            <div class="final-message">
+                ❤️ Доброе утро, моя любимая!<br />
+                Пусть этот день будет таким же прекрасным, как и ты<br />
+                <small>Твоя внешность — это только верхушка айсберга. Твоя доброта, твой смех, твоя забота делают тебя по‑настоящему неотразимой. Но даже если просто смотреть на тебя — сердце бьётся быстрее. Я благодарен каждому утру, которое мы встречаем вместе🌹</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функция переключения шагов
+        function nextStep(step) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+
+            document.getElementById('step' + step).classList.remove('hidden');
+
+            // При финале можно усилить эффект (но лепестки уже падают)
+            if (step === 4) {
+                // можно добавить конфетти или звук, но необязательно
+            }
+        }
+
+        // === ГЕНЕРАЦИЯ ЛЕПЕСТКОВ (постоянно) ===
+        let petalInterval;
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + '%';
+            const duration = 8 + Math.random() * 8; // от 8 до 16 секунд
+            petal.style.animationDuration = duration + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's'; // случайная задержка
+            // Случайный размер уже задан в CSS через nth-child, но дополнительно:
+            const size = 18 + Math.random() * 14;
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+            document.body.appendChild(petal);
+
+            // Удаляем лепесток после окончания анимации, чтобы не засорять DOM
+            setTimeout(() => {
+                if (petal.parentNode) petal.remove();
+            }, (duration + 5) * 1000);
+        }
+
+        // Запускаем создание лепестков каждые 300 мс
+        function startContinuousPetals() {
+            if (petalInterval) clearInterval(petalInterval);
+            // Создаём сразу 20 лепестков для старта
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createPetal, i * 150);
+            }
+            // Затем продолжаем генерировать
+            petalInterval = setInterval(createPetal, 350);
+        }
+
+        // Запускаем при загрузке
+        window.addEventListener('load', startContinuousPetals);
+
+        // Очистка интервала при уходе со страницы
+        window.addEventListener('beforeunload', function() {
+            if (petalInterval) clearInterval(petalInterval);
+        });
+    </script>
+</body>
+</html>
